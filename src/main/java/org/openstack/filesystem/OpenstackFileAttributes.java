@@ -23,8 +23,9 @@ public class OpenstackFileAttributes implements BasicFileAttributes, HashAttribu
 	}
 
 	private FileTime asFileTime(Date d) {
-		if (d == null)
+		if (d == null) {
 			return null;
+		}
 		return FileTime.fromMillis(d.getTime());
 	}
 

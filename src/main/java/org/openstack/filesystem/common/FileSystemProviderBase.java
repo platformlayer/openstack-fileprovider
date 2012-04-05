@@ -22,10 +22,12 @@ public abstract class FileSystemProviderBase<T extends PathBase> extends FileSys
 	}
 
 	protected T checkPath(Path path) {
-		if (path == null)
+		if (path == null) {
 			throw new NullPointerException();
-		if (!pathClass.isAssignableFrom(path.getClass()))
+		}
+		if (!pathClass.isAssignableFrom(path.getClass())) {
 			throw new ProviderMismatchException();
+		}
 		return (T) path;
 	}
 

@@ -41,8 +41,9 @@ public class OpenstackPath extends PathBase {
 
 	@Override
 	public Path getFileName() {
-		if (path == null)
+		if (path == null) {
 			return null;
+		}
 
 		int lastSlash = path.lastIndexOf('/');
 		if (lastSlash == -1) {
@@ -99,18 +100,21 @@ public class OpenstackPath extends PathBase {
 	}
 
 	private OpenstackPath checkPath(Path path) {
-		if (path == null)
+		if (path == null) {
 			throw new NullPointerException();
-		if (!(path instanceof OpenstackPath))
+		}
+		if (!(path instanceof OpenstackPath)) {
 			throw new ProviderMismatchException();
+		}
 		return (OpenstackPath) path;
 	}
 
 	@Override
 	public Path resolve(Path other) {
 		final OpenstackPath o = checkPath(other);
-		if (o.isAbsolute())
+		if (o.isAbsolute()) {
 			return o;
+		}
 
 		String resolved = joinPaths(this.path, o.path);
 		return new OpenstackPath(fs, resolved);
@@ -129,11 +133,13 @@ public class OpenstackPath extends PathBase {
 	@Override
 	public Path relativize(Path obj) {
 		OpenstackPath other = checkPath(obj);
-		if (other.equals(this))
+		if (other.equals(this)) {
 			return new OpenstackPath(fs, "");
+		}
 
-		if (this.isAbsolute() != other.isAbsolute())
+		if (this.isAbsolute() != other.isAbsolute()) {
 			throw new IllegalArgumentException("Cannot relativize paths when one is absolute and one is relative");
+		}
 
 		if (!this.fs.equals(other.fs)) {
 			throw new IllegalArgumentException("Cannot relativize paths from different filesystems");
@@ -142,11 +148,13 @@ public class OpenstackPath extends PathBase {
 		String thisPath = this.path;
 		String otherPath = other.path;
 
-		if (thisPath.equals(otherPath))
+		if (thisPath.equals(otherPath)) {
 			return new OpenstackPath(fs, "");
+		}
 
-		if (!thisPath.endsWith("/"))
+		if (!thisPath.endsWith("/")) {
 			thisPath += "/";
+		}
 
 		if (!otherPath.startsWith(thisPath)) {
 			throw new UnsupportedOperationException("Non-derived paths not supported for relativizing");
@@ -213,32 +221,38 @@ public class OpenstackPath extends PathBase {
 	}
 
 	public String getContainerName() {
-		if (!isAbsolute())
+		if (!isAbsolute()) {
 			throw new IllegalArgumentException();
-		if (path.charAt(0) != '/')
+		}
+		if (path.charAt(0) != '/') {
 			throw new IllegalStateException();
+		}
 		int slash = path.indexOf('/', 1);
 		if (slash == -1) {
-			if (path.length() == 1)
+			if (path.length() == 1) {
 				return null;
-			else
+			} else {
 				return path.substring(1);
+			}
 		}
 		return path.substring(1, slash);
 	}
 
 	public String getObjectPath() {
-		if (!isAbsolute())
+		if (!isAbsolute()) {
 			throw new IllegalArgumentException();
-		if (path.charAt(0) != '/')
+		}
+		if (path.charAt(0) != '/') {
 			throw new IllegalStateException();
+		}
 		int slash = path.indexOf('/', 1);
 		if (slash == -1) {
 			return null;
 		}
 		String s = path.substring(slash + 1);
-		if (s.length() == 0)
+		if (s.length() == 0) {
 			return null;
+		}
 		return s;
 	}
 

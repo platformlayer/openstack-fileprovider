@@ -48,8 +48,9 @@ public class SeekableByteChannels {
 
 			@Override
 			public long size() throws IOException {
-				if (size < 0)
+				if (size < 0) {
 					throw new UnsupportedOperationException();
+				}
 				return size;
 			}
 

@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.openstack.client.OpenstackCredentials;
 import org.openstack.client.OpenstackNotFoundException;
+import org.openstack.client.OpenstackProperties;
 import org.openstack.client.common.OpenstackSession;
 import org.openstack.client.storage.ObjectResource;
 import org.openstack.client.storage.ObjectsResource;
@@ -165,14 +166,16 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void createDirectory(OpenstackPath path, FileAttribute<?>[] attrs) throws IOException {
 		if (!path.isAbsolute()) {
 			throw new IllegalArgumentException("Expected absolute path");
 		}
 
 		String pathString = path.getPath();
-		if (!pathString.startsWith("/"))
+		if (!pathString.startsWith("/")) {
 			throw new IllegalArgumentException();
+		}
 		pathString = pathString.substring(1);
 
 		int slash = pathString.indexOf('/');
@@ -203,8 +206,9 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 			getStorageClient().root().containers().create(containerName);
 		} else {
 			// Create a dummy directory file
-			if (!objectPath.endsWith("/"))
+			if (!objectPath.endsWith("/")) {
 				objectPath += "/";
+			}
 
 			ObjectProperties properties = new ObjectProperties();
 			properties.setName(objectPath);
@@ -215,6 +219,7 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 		}
 	}
 
+	@Override
 	public DirectoryStream<Path> newDirectoryStream(OpenstackPath path, Filter<? super Path> filter) {
 		OpenstackStorageClient storageClient = getStorageClient();
 
@@ -254,8 +259,9 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 			ObjectProperties metadata = objectResource.metadata();
 
 			long size = -1;
-			if (metadata.getContentLength() != null)
+			if (metadata.getContentLength() != null) {
 				size = metadata.getContentLength();
+			}
 
 			return SeekableByteChannels.wrap(SeekableByteChannels.asByteChannel(Channels.newChannel(is)), size);
 		}
@@ -304,8 +310,9 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 			}
 		}
 
-		if (checkExecute)
+		if (checkExecute) {
 			throw new AccessDeniedException("No execute permission");
+		}
 
 		String containerName = path.getContainerName();
 		String objectPath = path.getObjectPath();
