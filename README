@@ -1,0 +1,4 @@
+This is a basic Java 7 file provider for OpenStack Storage (Swift).
+
+It relies on the OpenStack Java Bindings here https://github.com/platformlayer/openstack-java , so you'll want to mvn install those first.
+
