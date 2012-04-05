@@ -355,10 +355,10 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 	}
 
 	public OpenstackCredentials getOpenstackCredentials() {
-		String authUrl = getRequiredProperty("openstack.auth");
-		String username = getRequiredProperty("openstack.username");
-		String password = getRequiredProperty("openstack.password");
-		String tenant = getOptionalProperty("openstack.tenant", null);
+		String authUrl = getRequiredProperty(OpenstackProperties.AUTH_URL);
+		String username = getRequiredProperty(OpenstackProperties.AUTH_USER);
+		String password = getRequiredProperty(OpenstackProperties.AUTH_SECRET);
+		String tenant = getOptionalProperty(OpenstackProperties.AUTH_TENANT, null);
 
 		OpenstackCredentials credentials = new OpenstackCredentials(authUrl, username, password, tenant);
 		return credentials;
