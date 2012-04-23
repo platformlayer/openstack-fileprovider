@@ -30,7 +30,7 @@ public class OpenstackFilesystemTest {
 		// Path dir = Paths.get("openstack:///");
 
 		URI uri = URI.create("openstack:///");
-		Map<String, String> env = new HashMap<>();
+		Map<String, String> env = new HashMap<String, String>();
 
 		Properties properties = PropertyUtils.loadProperties(Io.resolve("~/.credentials/openstack"));
 		PropertyUtils.copyToMap(properties, env);
@@ -68,8 +68,11 @@ public class OpenstackFilesystemTest {
 		byte[] randomData = new byte[random.nextInt(100000)];
 		random.nextBytes(randomData);
 
-		try (InputStream is = new ByteArrayInputStream(randomData)) {
+		InputStream is = new ByteArrayInputStream(randomData);
+		try {
 			Files.copy(is, destFile);
+		} finally {
+			Io.safeClose(is);
 		}
 
 		files = listChildren(dir);

@@ -114,7 +114,7 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 
 	@Override
 	public Iterable<Path> getRootDirectories() {
-		ArrayList<Path> pathArr = new ArrayList<>();
+		ArrayList<Path> pathArr = new ArrayList<Path>();
 		OpenstackStorageClient storageClient = getStorageClient();
 		for (Container container : storageClient.root().containers().list()) {
 			pathArr.add(new OpenstackPath(this, "/" + container.getName()));
