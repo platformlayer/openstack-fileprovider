@@ -32,7 +32,8 @@ public class OpenstackFilesystemTest {
 		URI uri = URI.create("openstack:///");
 		Map<String, String> env = new HashMap<String, String>();
 
-		Properties properties = PropertyUtils.loadProperties(Io.resolve("~/.credentials/openstack"));
+		String configPath = System.getProperties().getProperty("openstack.config", "~/.credentials/openstack");
+		Properties properties = PropertyUtils.loadProperties(Io.resolve(configPath));
 		PropertyUtils.copyToMap(properties, env);
 		env.put("openstack.debug", "true");
 
