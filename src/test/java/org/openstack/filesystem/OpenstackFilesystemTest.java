@@ -95,11 +95,13 @@ public class OpenstackFilesystemTest {
 		recursiveDelete(rootDir);
 	}
 
-	private void recursiveDelete(Path dir) throws IOException {
+	private void recursiveDelete(Path dir) throws IOException, InterruptedException {
 		List<Path> paths = listChildren(dir);
 		for (Path child : paths) {
 			if (Files.isDirectory(child)) {
 				recursiveDelete(child);
+			} else {
+				Files.delete(child);
 			}
 		}
 		Files.delete(dir);

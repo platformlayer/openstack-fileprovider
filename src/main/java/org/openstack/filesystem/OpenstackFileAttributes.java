@@ -46,7 +46,8 @@ public class OpenstackFileAttributes implements BasicFileAttributes, HashAttribu
 
 	@Override
 	public boolean isDirectory() {
-		return Objects.equal(OpenstackFileSystem.DEFAULT_MIME_TYPE_DIRECTORY, properties.getContentType());
+		String contentType = properties.getContentType();
+		return Objects.equal(OpenstackFileSystem.DEFAULT_MIME_TYPE_DIRECTORY, contentType);
 	}
 
 	@Override

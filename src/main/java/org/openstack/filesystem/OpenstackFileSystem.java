@@ -29,6 +29,7 @@ import org.openstack.client.OpenstackCredentials;
 import org.openstack.client.OpenstackNotFoundException;
 import org.openstack.client.OpenstackProperties;
 import org.openstack.client.common.OpenstackSession;
+import org.openstack.client.storage.ContainerResource;
 import org.openstack.client.storage.ObjectResource;
 import org.openstack.client.storage.ObjectsResource;
 import org.openstack.client.storage.OpenstackStorageClient;
@@ -230,7 +231,7 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 		} else if (!objectNamePrefix.endsWith("/")) {
 			objectNamePrefix += "/";
 		}
-		Iterable<StorageObject> listObjects = storageClient.listObjects(containerName, objectNamePrefix, "/");
+		Iterable<StorageObject> listObjects = storageClient.listObjects(containerName, objectNamePrefix, null);
 
 		return new OpenstackDirectoryStream(path, objectNamePrefix, listObjects, filter);
 	}
@@ -344,8 +345,13 @@ public class OpenstackFileSystem extends FileSystemBase<OpenstackPath> {
 			if (objectPath == null) {
 				throw new UnsupportedOperationException();
 			} else {
-				ObjectProperties properties = storageClient.root().containers().id(containerName).objects()
-						.id(objectPath).metadata();
+				ObjectProperties properties;
+				try {
+					ContainerResource container = storageClient.root().containers().id(containerName);
+					properties = container.objects().id(objectPath).metadata();
+				} catch (OpenstackNotFoundException e) {
+					throw new FileNotFoundException("File not found: " + path);
+				}
 				OpenstackFileAttributes attributes = new OpenstackFileAttributes(properties);
 				return (A) attributes;
 			}
