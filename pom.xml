@@ -1,47 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
-	<groupId>org.platformlayer</groupId>
-	<artifactId>openstack-fileprovider</artifactId>
-	<version>0.1-SNAPSHOT</version>
+    <groupId>org.platformlayer</groupId>
+    <artifactId>openstack-fileprovider-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-	<name>Openstack :: Provider for Java 7 Filesystem API</name>
+    <modules>
+        <module>java6-nio2</module>
+        <module>openstack-fileprovider</module>
+    </modules>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.openstack.api>0.1-SNAPSHOT</version.openstack.api>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-
-	<dependencies>
+    <dependencyManagement>
+        <dependencies>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.3.1</version>
-			<scope>test</scope>
 		</dependency>
+        </dependencies>
+    </dependencyManagement>
 
-		<dependency>
-			<groupId>org.platformlayer</groupId>
-			<artifactId>openstack-api</artifactId>
-			<version>${version.openstack.api}</version>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<showDeprecation>true</showDeprecation>
-					<showWarnings>true</showWarnings>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
