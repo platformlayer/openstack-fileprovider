@@ -89,7 +89,7 @@ public class Files {
 
 	}
 
-	public static boolean exists(Path path) {
+	public static boolean exists(Path path, LinkOption... options) {
 		try {
 			// This is crappy, but this is the contract...
 			/* BasicFileAttributes attributes = */readAttributes(path, BasicFileAttributes.class);
